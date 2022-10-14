@@ -42,7 +42,7 @@ function getOneChar(event) {
   })
 }
 
-function getOldChars(char) {
+function getOldChars(event) {
   event.preventDefault()
 
   clearCharacters()
@@ -56,6 +56,30 @@ function getOldChars(char) {
   }).catch(() => {
     console.log('error, no response')
   })
+}
+
+function newChar(event) {
+  event.preventDefault()
+
+  clearCharacters()
+
+  const body = {
+    firstName: newFirstInput.value,
+    lastName: newLastInput.value,
+    age: newAgeInput.value,
+    likes: newLikesText.value.split(',')
+  }
+
+  axios.post(baseURL + '/character', body).then((response) => {
+    console.log('New character created')
+  }).catch(() => {
+
+  })
+
+  newFirstInput.value = ''
+  newLastInput.value = ''
+  newAgeInput.value = ''
+  newLikesText.value = ''
 }
 
 function createCharacterCard(char) {
@@ -83,3 +107,5 @@ for (let i = 0; i < charBtns.length; i++) {
 }
 
 ageForm.addEventListener('submit', getOldChars)
+
+createForm.addEventListener('submit', newChar)
